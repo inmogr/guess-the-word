@@ -57,6 +57,9 @@ func start(uid string) {
 	fmt.Println("1- Colors")
 	fmt.Println("2- Directions")
 	fmt.Println("3- Names")
+	fmt.Println("*************")
+	fmt.Println("Or you can")
+	fmt.Println("4- Check my score by typing 'score'")
 	fmt.Print("Enter text: ")
 
 	// take input
@@ -66,6 +69,13 @@ func start(uid string) {
 	//clean input => in go there is two extra characters taken with human input
 	guessGame = strings.TrimSuffix(guessGame, "\n")
 	guessGame = strings.TrimSuffix(guessGame, string(13))
+
+	if guessGame == "score" {
+		total := user.GetTotalScore(uid)
+		fmt.Printf("Your total score is %%%.2f\n", total)
+		fmt.Println("Thank you for using our system")
+		return
+	}
 
 	words := generator.Generate(guessGame)
 	if len(words) == 0 {
