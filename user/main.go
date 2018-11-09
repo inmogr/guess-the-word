@@ -83,7 +83,7 @@ func SignUpWithData(username string, password string) (uid string) {
 			sample.users
 				(uid, username, password)
 			VALUES
-				(uuid_generate_v4(), $1, $2);
+				(gen_random_uuid(), $1, $2);
 	`, username, password)
 
 	if err == nil {
@@ -121,7 +121,7 @@ func AddScore(uid string, score float64) (isSuccessful bool) {
 			sample.scores
 				(id, uid, score)
 			VALUES
-				(uuid_generate_v4(), $1, $2);
+				(gen_random_uuid(), $1, $2);
 	`, uid, score)
 
 	if err == nil {
