@@ -139,7 +139,7 @@ func AddScore(uid string, score float64) (isSuccessful bool) {
 
 func GetTotalScore(uid string) (score float64) {
 	query := fmt.Sprintf(`
-		SELECT SUM(score) 
+		SELECT SUM(score) / COUNT(score)
 			FROM
 				sample.scores
 			WHERE

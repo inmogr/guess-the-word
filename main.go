@@ -79,8 +79,8 @@ func start(uid string) {
 
 	fmt.Print("\n\n")
 	fmt.Println("Great you guessed it all!")
-	fmt.Printf("Your score is %.2f\n", score)
+	fmt.Printf("Your score is %%%.2f\n", score)
 	user.AddScore(uid, score)
 	total := user.GetTotalScore(uid)
-	fmt.Printf("Your total score is %.2f\n", total)
+	fmt.Printf("Your total score is %%%.2f\n", total)
 }
