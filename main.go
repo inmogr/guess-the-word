@@ -93,4 +93,17 @@ func start(uid string) {
 	user.AddScore(uid, score)
 	total := user.GetTotalScore(uid)
 	fmt.Printf("Your total score is %%%.2f\n", total)
+
+	fmt.Print("\n\n")
+	fmt.Println("Would you like to play again?")
+	fmt.Print("Enter 'yes' or anything else to exist: ")
+	playAgain, _ := reader.ReadString('\n')
+
+	//clean input => in go there is two extra characters taken with human input
+	playAgain = strings.TrimSuffix(playAgain, "\n")
+	playAgain = strings.TrimSuffix(playAgain, string(13))
+
+	if playAgain == "yes" {
+		start(uid)
+	}
 }
