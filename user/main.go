@@ -50,6 +50,10 @@ func LoginWithData(username string, password string) (uid string) {
 
 	db.QueryRow(query).Scan(&uid)
 
+	if uid == "" {
+		return "Failed"
+	}
+
 	return uid
 }
 
