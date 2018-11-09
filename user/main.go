@@ -40,15 +40,13 @@ func Setup() {
 }
 
 func LoginWithData(username string, password string) (uid string) {
-	query := fmt.Sprintf(`
+	db.QueryRow(`
 		SELECT uid 
 			FROM
 				sample.users
 			WHERE
-				username='%s' and password='%s';
-	`, username, password)
-
-	db.QueryRow(query).Scan(&uid)
+				username=$1 and password=$2;
+	`, username, password).Scan(&uid)
 
 	if uid == "" {
 		return "Failed"
@@ -80,15 +78,13 @@ func Login() (uid string) {
 }
 
 func SignUpWithData(username string, password string) (uid string) {
-	query := fmt.Sprintf(`
+	_, err := db.Exec(`
 		INSERT INTO
 			sample.users
 				(uid, username, password)
 			VALUES
-				(uuid_generate_v4(), '%s', '%s');
+				(uuid_generate_v4(), $1, $2);
 	`, username, password)
-
-	_, err := db.Exec(query)
 
 	if err == nil {
 		return LoginWithData(username, password)
@@ -120,15 +116,13 @@ func SignUp() (uid string) {
 }
 
 func AddScore(uid string, score float64) (isSuccessful bool) {
-	query := fmt.Sprintf(`
+	_, err := db.Exec(`
 		INSERT INTO
 			sample.scores
 				(id, uid, score)
 			VALUES
-				(uuid_generate_v4(), '%s', '%f');
+				(uuid_generate_v4(), $1, $2);
 	`, uid, score)
-
-	_, err := db.Exec(query)
 
 	if err == nil {
 		return true
@@ -138,15 +132,13 @@ func AddScore(uid string, score float64) (isSuccessful bool) {
 }
 
 func GetTotalScore(uid string) (score float64) {
-	query := fmt.Sprintf(`
+	db.QueryRow(`
 		SELECT SUM(score) / COUNT(score)
 			FROM
 				sample.scores
 			WHERE
-				uid='%s';
-	`, uid)
-
-	db.QueryRow(query).Scan(&score)
+				uid=$1;
+	`, uid).Scan(&score)
 
 	return score
 }
