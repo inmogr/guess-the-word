@@ -68,8 +68,13 @@ func start(uid string) {
 	guessGame = strings.TrimSuffix(guessGame, string(13))
 
 	words := generator.Generate(guessGame)
-	shuffled := random.Shuffle(words)
+	if len(words) == 0 {
+		fmt.Println("We failed to find the game you have requested, please try again later")
+		fmt.Println("Thank you for using our system")
+		return
+	}
 
+	shuffled := random.Shuffle(words)
 	score := game.Start(words, shuffled)
 
 	fmt.Print("\n\n")
@@ -77,5 +82,5 @@ func start(uid string) {
 	fmt.Printf("Your score is %.2f\n", score)
 	user.AddScore(uid, score)
 	total := user.GetTotalScore(uid)
-	fmt.Printf("Your total score is %f\n", total)
+	fmt.Printf("Your total score is %.2f\n", total)
 }
